@@ -1,3 +1,6 @@
+
+// Enemies instanstiated are here
+let allEnemies = [];
 // Enemies our player must avoid
 var Enemy = function(y) {
     // Variables applied to each of our instances go here
@@ -34,6 +37,26 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+// Create n amount of enemies distributed among three lanes
+function createEnemies(n) {
+    let y = [60, 140, 225];
+    for(let i = 0; i < n; i++) {
+        numBugsTop = Math.floor(n/ y.length);
+        numBugsMiddle = numBugsTop * 2;
+        if(allEnemies.length < numBugsTop) {
+            allEnemies[i] = new Enemy(y[0]);
+        } else if(allEnemies.length >= numBugsTop && allEnemies.length < numBugsMiddle) {
+            allEnemies[i] = new Enemy(y[1]);
+        } else if(allEnemies.length >= numBugsMiddle) {
+            allEnemies[i] = new Enemy(y[2]);
+        }
+    }
+    
+    return allEnemies;
+}
+// We can choose the amount of enemies we want on-screen
+createEnemies(6);
 
 // Player class
 var Player = function() {
@@ -84,28 +107,6 @@ Player.prototype.handleInput = function(direction) {
     }
 }
 
-// Enemies instanstiated are here
-let allEnemies = [];
-
-// Create n amount of enemies distributed among three lanes
-function createEnemies(n) {
-    let y = [60, 140, 225];
-    for(let i = 0; i < n; i++) {
-        numBugsTop = Math.floor(n/ y.length);
-        numBugsMiddle = numBugsTop * 2;
-        if(allEnemies.length < numBugsTop) {
-            allEnemies[i] = new Enemy(y[0]);
-        } else if(allEnemies.length >= numBugsTop && allEnemies.length < numBugsMiddle) {
-            allEnemies[i] = new Enemy(y[1]);
-        } else if(allEnemies.length >= numBugsMiddle) {
-            allEnemies[i] = new Enemy(y[2]);
-        }
-    }
-    
-    return allEnemies;
-}
-// We can choose the amount of enemies we want on-screen
-createEnemies(6);
 // Instantiation of Player
 const player = new Player();
 
